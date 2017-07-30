@@ -110,8 +110,8 @@
                                 <td>{{data.Name}}</td>
                                 <td>{{data.CaseLocationDescription}}</td>
                                 <td>{{data.CaseDescription}}</td>
-                                <td v-if="data.CaseComplete">是</td>
-                                <td v-else>否</td>
+                                <td v-if="data.CaseComplete == 'true'">是</td>
+                            	<td v-else>否</td>
                             </tr>
                         </tbody>
                     </table>
