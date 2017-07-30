@@ -102,16 +102,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for='data in disasterData'>
-                                <td v-if="filterArea(data)">{{data.DPName}}</td>
-                                <td v-if="filterArea(data)">{{data.CaseTime}}</td>
-                                <td v-if="filterArea(data)">{{data.CaseLocationDistrict}}</td>
-                                <td v-if="filterArea(data)">{{data.PName}}</td>
-                                <td v-if="filterArea(data)">{{data.Name}}</td>
-                                <td v-if="filterArea(data)">{{data.CaseLocationDescription}}</td>
-                                <td v-if="filterArea(data)">{{data.CaseDescription}}</td>
-                                <td v-if="data.CaseDescription">是</td>
-                                <td v-if="data.CaseDescription == false">否</td>
+                            <tr v-for='data in disasterData' v-show="filterArea(data)">
+                                <td>{{data.DPName}}</td>
+                                <td>{{data.CaseTime}}</td>
+                                <td>{{data.CaseLocationDistrict}}</td>
+                                <td>{{data.PName}}</td>
+                                <td>{{data.Name}}</td>
+                                <td>{{data.CaseLocationDescription}}</td>
+                                <td>{{data.CaseDescription}}</td>
+                                <td v-if="data.CaseComplete">是</td>
+                                <td v-else>否</td>
                             </tr>
                         </tbody>
                     </table>
