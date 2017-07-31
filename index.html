@@ -11,7 +11,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/vue-resource.min.js"></script>
-    
 </head>
 
 <body>
@@ -53,25 +52,23 @@
 		              <h4>Label</h4>
 		              <span class="text-muted">Something else</span>
 		            </div>
-		            <div class="col-xs-6 col-sm-3 placeholder">
-		              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		              <h4>Label</h4>
-		              <span class="text-muted">Something else</span>
-		            </div>
-		            <div class="col-xs-6 col-sm-3 placeholder">
-		              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		              <h4>Label</h4>
-		              <span class="text-muted">Something else</span>
-		            </div>
-		            <div class="col-xs-6 col-sm-3 placeholder">
-		              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		              <h4>Label</h4>
-		              <span class="text-muted">Something else</span>
-		            </div>
 		          </div>
 		          -->
                 <h2 class="sub-header">最新消息(列表版)</h2>
                 <div class="table-responsive" id="list">
+                	<div class="pagination">
+                        <ul>
+	                        <li @click.prevent="setPage(currPage-1)">
+	                        	<input type="button" value="Prev" v-bind:class="{'disabled': (currPage === 1)}">
+	                        </li>
+	                        <li>
+	                        	<input type="text" id="keyPage" value="{{currPage}}" v-model.lazy="keyInPage"> / {{pageNum}} 頁
+	                        </li>
+	                        <li @click.prevent="setPage(currPage+1)">
+	                        	<input type="button" value="Next" v-bind:class="{'disabled': (currPage === totalPage)}">
+	                        </li>
+                        </ul>
+                    </div><br>
                     區域：
                     <select name="" v-model="area">
                         <option value="全部">全部</option>

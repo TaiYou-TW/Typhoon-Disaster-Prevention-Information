@@ -118,5 +118,28 @@ body {
 }
 
 #list th, #list td{
-  min-width: 150px;
+  min-width: 130px;
+}
+
+#keyPage{
+  width: 30px;
+  height: 20px;
+}
+
+.pagination{
+  width: 100%;
+  text-align: center;
+}
+
+.pagination ul{
+  list-style-type: none;
+}
+
+.pagination li{
+  display: inline-block;
+  padding: 2%;
+}
+
+.disabled{
+  display: none;
 }

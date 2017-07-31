@@ -19,17 +19,20 @@ function showList() {
 }*/
 
 const apiUrl = 'https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json';
+const DataPerPage = 10;//一頁暫定10筆
 
 var app = new Vue({
     el: '#list',
     data: {
         area: '全部',
         disasterData: null,
-        showinfo: null
+        showinfo: null,
+        totalPage: [],
+        pageNum: 0,
+        currPage:1
     },
     created: function() {
-        //執行
-        this.callData()
+        this.callData()//執行
     },
     filter: {
     },
@@ -46,10 +49,22 @@ var app = new Vue({
             this.$http.get(apiUrl).then(response => {
                 // 獲取災害資訊
                 this.disasterData = response.body.DataSet['diffgr:diffgram'].NewDataSet.CASE_SUMMARY;
+   		        this.pageNum = Math.ceil(this.disasterData.length / DataPerPage);
+                for(var i = 0; i <= this.pageNum; i++)
+   		            this.totalPage.push(i);
                 this.showinfo = response.status;
             }, response => {
                 this.showinfo = response.status;
             });
+        },
+        setPage: function(page){
+        	currPage = page;
+        	console.log(currPage);
         }
+    },
+    watch:{
+    	keyInPage: function(val){
+    		setPage(val);
+    	}
     }
 })
