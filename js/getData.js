@@ -17,12 +17,12 @@ var app = new Vue({
             this.$http.get(apiUrl)
                 .then((response) => {
                     var data = response.data.DataSet['diffgr:diffgram'].NewDataSet.CASE_SUMMARY;
-                    console.log(data);
+                    //console.log(data);
                     this.$set('data', data);
                     this.pageNum = Math.floor(data.length / DataPerPage);
                 })
                 .catch(function(response) {
-                    console.log(response);
+                    //console.log(response);
                 })
         },
         setPage: function(n){
@@ -61,7 +61,7 @@ var app = new Vue({
             else if(this.keyword=='全部'){
                 this.db = this.data;
                 this.pageNum = Math.floor(this.data.length / DataPerPage);
-                console.log(this.data.length);
+                //console.log(this.data.length);
                 return this.db.slice(this.page*DataPerPage, this.page*DataPerPage+DataPerPage);
             }
             var _this = this;
