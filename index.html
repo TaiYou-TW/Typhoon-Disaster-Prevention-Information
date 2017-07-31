@@ -56,36 +56,35 @@
 		          -->
                 <h2 class="sub-header">最新消息(列表版)</h2>
                 <div class="table-responsive" id="list">
+                <!--
+                    第 {{ page }} 頁
+                    <input class="btn btn-lg btn-success" type="button" @click="setPage(-1)" value="上一頁"/>
+                    <button class="btn btn-lg btn-success" v-for="obj in getNewList" @click="setPage(obj.add)"/>{{ obj.val }}</button>
+                    <input class="btn btn-lg btn-success" type="button" @click="setPage(1)" value="下一頁"/>
+                -->
                 	<div class="pagination">
                         <ul>
-	                        <li @click.prevent="setPage(currPage-1)">
-	                        	<input type="button" value="Prev" v-bind:class="{'disabled': (currPage === 1)}">
+	                        <li>
+	                        	<input class="btn btn-primary" type="button" @click="setPage(-1)" value="Prev"/>
 	                        </li>
 	                        <li>
-	                        	<input type="text" id="keyPage" value="{{currPage}}" v-model.lazy="keyInPage"> / {{pageNum}} 頁
+                                <h3>
+	                        	<span class="label label-primary">
+                                    <input type="text" class="form-control" id="keyPage" value="{{ page }}" v-model="page"> / {{pageNum}} 頁
+                                </span>
+                                </h3>
 	                        </li>
-	                        <li @click.prevent="setPage(currPage+1)">
-	                        	<input type="button" value="Next" v-bind:class="{'disabled': (currPage === totalPage)}">
+	                        <li>
+	                        	<input class="btn btn-primary" type="button" @click="setPage(1)" value="Next"/>
 	                        </li>
                         </ul>
                     </div><br>
-                    區域：
-                    <select name="" v-model="area">
-                        <option value="全部">全部</option>
-                        <option value="萬華區">萬華區</option>
-                        <option value="中正區">中正區</option>
-                        <option value="大同區">大同區</option>
-                        <option value="中山區">中山區</option>
-                        <option value="大安區">大安區</option>
-                        <option value="南港區">南港區</option>
-                        <option value="文山區">文山區</option>
-                        <option value="松山區">松山區</option>
-                        <option value="信義區">信義區</option>
-                        <option value="士林區">士林區</option>
-                        <option value="北投區">北投區</option>
-                        <option value="內湖區">內湖區</option>
-                        <option value="其他">其他</option>
+                    <h4 style="display: inline-block;"><span class="label label-info">區域</span></h4>
+                    <select v-model="keyword" @change="resetPage()">
+                      <option selected="selected" value="全部">全部</option>
+                      <option  v-for="val in getlist" v-bind:value="val">{{ val }}</option>
                     </select>
+
                     <table class="table table-striped" >
                         <thead>
                             <tr>
@@ -100,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for='data in disasterData' v-show="filterArea(data)">
+                            <tr v-for='data in search'>
                                 <td>{{data.DPName}}</td>
                                 <td>{{data.CaseTime}}</td>
                                 <td>{{data.CaseLocationDistrict}}</td>
@@ -119,5 +118,4 @@
     </div>
 	<script src="js/getData.js"></script>
 </body>
-
 </html>

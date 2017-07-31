@@ -1,70 +1,78 @@
-/*var data;
-
-var xhr = new XMLHttpRequest();
-xhr.open('get', 'https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json');
-xhr.send(null);
-xhr.onload = function() {
-    var str = JSON.parse(xhr.responseText);
-    data = str.DataSet['diffgr:diffgram'].NewDataSet.CASE_SUMMARY;
-    showList();
-}
-
-function showList() {
-    var tr = document.createElement("tr");
-    var len = data.length;
-    for (var i = 0; len > i; i++) {
-        tr.innerHTML = '<td>' + data[i].CaseTime + '</td>'
-        document.querySelector('.list').appendChild(str);
-    }
-}*/
-
 const apiUrl = 'https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json';
 const DataPerPage = 10;//一頁暫定10筆
 
 var app = new Vue({
     el: '#list',
     data: {
-        area: '全部',
-        disasterData: null,
-        showinfo: null,
-        totalPage: [],
-        pageNum: 0,
-        currPage:1
+        disasterData: '',
+        showinfo: '',
+        page:0,
+        pageNum:0
     },
-    created: function() {
-        this.callData()//執行
-    },
-    filter: {
+    ready: function() {
+        this.ajax()//執行
     },
     methods: {
-        filterArea: function(item) {
-            if (this.area == '全部') {
-                return true
-            } else if (item.CaseLocationDistrict == this.area) {
-                return true
-            }
+        ajax: function() {
+            this.$http.get(apiUrl)
+                .then((response) => {
+                    var data = response.data.DataSet['diffgr:diffgram'].NewDataSet.CASE_SUMMARY;
+                    console.log(data);
+                    this.$set('data', data);
+                    this.pageNum = Math.floor(data.length / DataPerPage);
+                })
+                .catch(function(response) {
+                    console.log(response);
+                })
         },
-        callData: function() {
-            // GET /someUrl
-            this.$http.get(apiUrl).then(response => {
-                // 獲取災害資訊
-                this.disasterData = response.body.DataSet['diffgr:diffgram'].NewDataSet.CASE_SUMMARY;
-   		        this.pageNum = Math.ceil(this.disasterData.length / DataPerPage);
-                for(var i = 0; i <= this.pageNum; i++)
-   		            this.totalPage.push(i);
-                this.showinfo = response.status;
-            }, response => {
-                this.showinfo = response.status;
-            });
+        setPage: function(n){
+            // console.log(this.db.length-((this.page+n)*10+10))
+            this.page = Number(this.page);
+            if(this.page+n>=0&&n<0)
+                this.page+=n;
+            else if(this.db.length-((this.page+n)*DataPerPage+DataPerPage)>-DataPerPage&&n>0)
+                this.page+=n;
+            // this.getNewList();
+            //console.log(this.page);
+            //console.log(app.data);
         },
-        setPage: function(page){
-        	currPage = page;
-        	console.log(currPage);
+        resetPage: function(){
+            this.page = 0;
         }
     },
-    watch:{
-    	keyInPage: function(val){
-    		setPage(val);
-    	}
+    computed:{
+        getlist:function getlist(){
+            if(!this.data)return ["請稍後..."];
+            var _this = this;
+            var list = [];
+            this.data.map(function(el){
+                var loc = el.CaseLocationDistrict;
+                if(list.indexOf(loc)==-1)
+                    list.push(loc);
+            })
+            //console.log(list);
+            return list;
+        },
+        search:function search(){
+            if(this.keyword=='wait'){
+                this.db = [];
+                return ["請稍後..."];
+            }
+            else if(this.keyword=='全部'){
+                this.db = this.data;
+                this.pageNum = Math.floor(this.data.length / DataPerPage);
+                console.log(this.data.length);
+                return this.db.slice(this.page*DataPerPage, this.page*DataPerPage+DataPerPage);
+            }
+            var _this = this;
+            var db = this.data.filter(function(val){
+                return new RegExp(_this.keyword, 'g').test(val.CaseLocationDistrict);
+            });
+            this.db = db;
+            //console.log(this.page);
+            //console.log(db);
+            this.pageNum = Math.floor(db.length / DataPerPage);
+            return db.splice(this.page*DataPerPage, DataPerPage);
+        }
     }
 })

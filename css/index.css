@@ -122,13 +122,16 @@ body {
 }
 
 #keyPage{
-  width: 30px;
+  width: 45px;
   height: 20px;
+  padding: 4px 8px;
+  display: inline-block;
 }
 
 .pagination{
   width: 100%;
   text-align: center;
+  margin: 0px;
 }
 
 .pagination ul{
@@ -137,9 +140,13 @@ body {
 
 .pagination li{
   display: inline-block;
-  padding: 2%;
+  padding: 1%;
 }
 
 .disabled{
   display: none;
+}
+
+.pagination input[type=button]{
+  border-radius: 10px;
 }
